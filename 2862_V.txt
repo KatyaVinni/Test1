@@ -1,0 +1,40 @@
+1. 
+_024004 create SI using form link/unlink Sales: _0240CreateSalesInvoice.feature
+Судя по файлу CurrentValueTable Allure отчета текущее значение позиции 'Shirt (36/Red)' = 5, 
+а в колонку 'Quantity' пытались вводить значение 7, соответственно
+тест падал с ошибкой Value <7,000 > from <Quantity > column is not found.
+
+2. 
+_970001 filling in test data base TestDataBase: _9700FillingInTestDataBase.feature
+Судя по файлу EventLog Allure отчета при переходе по ссылке "e1cib/list/Document.SalesOrder"  транзакция не выполнена, т.к. объект не доступен
+Опять же, судя по журналу регистрации, что-то до этого произошло с проведением документов PurchaseInvoice (провелся всего один Purchase invoice 1);
+если проводить аналогию с документами Opening entry и Purchase order после события Data.Posting определенного документа идет Завершение транзакции и осуществляется переход на выполнение следующего шага;
+а в случае с документами PurchaseInvoice после события Data.Posting (когда провелся документ Purchase invoice 1) были еще какие-то события журнала регистрации, результатом которых не стало
+событие Data.Posting следующего документа PurchaseInvoice и только потом началось выполнение следующего шага.
+
+3. 
+_024027 cancel line in the SO and create
+На форме нет кнопки Sales invoice, в списке ActiveFormState так же нет этой кнопки, хотя в списке AllFormsState она есть.
+Может быть, она должна была стать активной после проведения документа Sales Order № 15, но судя, по скрин-шоту №1 в Allure отчете, была ошибка проведения.
+Наверное после  And I click "Post" button нужно еще добавить: И я жду 10 секунд.
+
+4.
+_2060018 check link form in the PI with 2 lines with the same items
+Шаг And I go to line in "BasisesTree" table не может быть выполнен
+Судя по файлу CurrentValueTable Allure отчета такой строки нет
+
+5. 
+_0154149 create Cash statement RetailDocuments: _2024FillingRetailDocuments.feature
+На шаге Создания Квитанции о возврате на основании документа Квитанции о продаже 01541491(* Create Retail return receipt based on RetailSalesReceipt01541491)
+падение случается в самом начале при попытке перехода к строке списка с сообщением о том, что строка линковки не верна. 
+Если перейти на шаг (* Create RetailSalesReceipt01541491) на основании котрого и создается документ возврата, то там в таблице строка со значением 
+в колонке Item =  Trousers
+а в документе возврата - Shirt
+
+6. 
+_015450 check message output for SO when trying to create a purchase order/SC
+Падение происходит при проверке что количество строк для выбора равно нулю, но судя по скрину есть одна строка с Item = Trousers
+
+7.
+_0920SerialLotNumber.feature: _092003 check serial lot number in the Retail return receipt
+По факту в строках таблицы в колонке Branch - пусто, а сценарии в данной колонке у строк должно быть значение Shop 01
